@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+
+<VBox xmlns="http://javafx.com/javafx/17" 
+      xmlns:fx="http://javafx.com/fxml/1" 
+      fx:controller="com.aimoodchecker.controller.HomeController"
+      alignment="CENTER"
+      spacing="16"
+      style="-fx-padding: 32;">
+
+
+    <Label text="Welcome to AI Journaling/Mood checker" style="-fx-font-size:24px; -fx-font-weight:bold;"/>
+
+
+    <ImageView fx:id="logo" fitWidth="160" preserveRatio="true">
+
+        <image>
+
+            <Image url="@images/logo.png"/>
+        </image> 
+
+    </ImageView>
+
+
+    <HBox alignment="CENTER" spacing ="16">
+
+        <Button  fx:id="logMoodBtn" text= "Log mood" onAction="#handleLogMood"/>
+
+        <Button fx:id="viewHistoryBtn" text="View History" onAction="#handleViewHistory"/>
+
+    </HBox>
+
+
+</VBox>

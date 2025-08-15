@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.*?>
+
+<VBox xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.aimoodchecker.controller.ComposeController"
+      spacing="10" style="-fx-padding: 24;">
+    <Label text="Log Mood" style="-fx-font-size: 18; -fx-font-weight: bold"/>
+    <!-- You'll add: Date, Mood(1-5), Note fields -->
+    <HBox spacing="8">
+        <Button text="Save"   onAction="#onSave"/>
+        <Button text="Cancel" onAction="#onCancel"/>
+    </HBox>
+</VBox>

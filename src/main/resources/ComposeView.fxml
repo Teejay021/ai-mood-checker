@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.geometry.Insets?>
+
+<VBox xmlns="http://javafx.com/javafx/17" 
+      xmlns:fx="http://javafx.com/fxml/1" 
+      fx:controller="com.aimoodchecker.controller.ComposeController"
+      alignment="CENTER"
+      spacing="20"
+      style="-fx-padding: 32;">
+
+    <Label text="Log Your Mood" style="-fx-font-size:24px; -fx-font-weight:bold;"/>
+
+    <VBox spacing="15" maxWidth="400">
+        <Label text="How are you feeling today?" style="-fx-font-size:16px;"/>
+        
+        <HBox spacing="10" alignment="CENTER">
+            <Button text="😊 Happy" onAction="#onHappy" style="-fx-font-size:14px;"/>
+            <Button text="😐 Neutral" onAction="#onNeutral" style="-fx-font-size:14px;"/>
+            <Button text="😔 Sad" onAction="#onSad" style="-fx-font-size:14px;"/>
+        </HBox>
+        
+        <Label text="describe your mood:" style="-fx-font-size:14px;"/>
+        <TextArea fx:id="moodText" promptText="Describe how you're feeling..." 
+                  prefRowCount="4" wrapText="true"/>
+        
+        <HBox spacing="15" alignment="CENTER">
+            <Button fx:id="saveBtn" text="Save Entry" onAction="#onSave" 
+                    style="-fx-font-size:16px; -fx-background-color: #4CAF50; -fx-text-fill: white;"/>
+            <Button fx:id="cancelBtn" text="Cancel" onAction="#onCancel" 
+                    style="-fx-font-size:16px; -fx-background-color: #f44336; -fx-text-fill: white;"/>
+        </HBox>
+    </VBox>
+</VBox>

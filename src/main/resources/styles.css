@@ -1,0 +1,72 @@
+/* Main container styles */
+.main-container {
+    -fx-background-color: linear-gradient(to bottom right, #667eea 0%, #764ba2 100%);
+    -fx-font-family: 'Segoe UI', Arial, sans-serif;
+}
+
+/* Title label styles */
+.title-label {
+    -fx-font-size: 36px;
+    -fx-font-weight: bold;
+    -fx-text-fill: white;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.3), 10, 0, 0, 2);
+}
+
+/* Status label styles */
+.status-label {
+    -fx-font-size: 18px;
+    -fx-text-fill: #e8f4fd;
+    -fx-font-style: italic;
+}
+
+/* Button styles */
+.primary-button, .secondary-button {
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-padding: 12 24;
+    -fx-cursor: hand;
+    -fx-border-radius: 25;
+    -fx-background-radius: 25;
+    -fx-min-width: 120;
+    -fx-min-height: 40;
+    -fx-transition: all 0.3s ease;
+}
+
+.primary-button {
+    -fx-background-color: #4CAF50;
+    -fx-text-fill: white;
+    -fx-border-color: #45a049;
+    -fx-border-width: 2;
+}
+
+.primary-button:hover {
+    -fx-background-color: #45a049;
+    -fx-border-color: #4CAF50;
+    -fx-scale-x: 1.05;
+    -fx-scale-y: 1.05;
+}
+
+.secondary-button {
+    -fx-background-color: transparent;
+    -fx-text-fill: white;
+    -fx-border-color: white;
+    -fx-border-width: 2;
+}
+
+.secondary-button:hover {
+    -fx-background-color: rgba(255,255,255,0.1);
+    -fx-scale-x: 1.05;
+    -fx-scale-y: 1.05;
+}
+
+/* Focus styles */
+.primary-button:focused, .secondary-button:focused {
+    -fx-border-color: #ffd700;
+    -fx-border-width: 3;
+}
+
+/* Disabled button styles */
+.primary-button:disabled, .secondary-button:disabled {
+    -fx-opacity: 0.6;
+    -fx-cursor: default;
+}

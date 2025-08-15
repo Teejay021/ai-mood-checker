@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.geometry.Insets?>
+
+<VBox xmlns="http://javafx.com/javafx/17" 
+      xmlns:fx="http://javafx.com/fxml/1" 
+      fx:controller="com.aimoodchecker.controller.HistoryController"
+      alignment="CENTER"
+      spacing="20"
+      style="-fx-padding: 32;">
+
+    <Label text="Mood History" style="-fx-font-size:24px; -fx-font-weight:bold;"/>
+
+    <VBox spacing="15" maxWidth="600">
+        <HBox spacing="15" alignment="CENTER_RIGHT">
+            <Button text="Refresh" onAction="#onRefresh" style="-fx-font-size:14px;"/>
+            <Button text="Back to Home" onAction="#onBackHome" style="-fx-font-size:14px;"/>
+        </HBox>
+        
+        <TableView fx:id="historyTable" VBox.vgrow="ALWAYS">
+            <columns>
+                <TableColumn fx:id="dateColumn" text="Date" prefWidth="120"/>
+                <TableColumn fx:id="moodColumn" text="Mood" prefWidth="100"/>
+                <TableColumn fx:id="descriptionColumn" text="Description" prefWidth="300"/>
+            </columns>
+        </TableView>
+        
+        <Label fx:id="noDataLabel" text="No mood entries yet. Start by logging your first mood!" 
+               style="-fx-font-size:14px; -fx-text-fill: gray;" visible="false"/>
+    </VBox>
+</VBox>
