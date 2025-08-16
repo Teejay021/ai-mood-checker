@@ -7,6 +7,7 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import com.aimoodchecker.dao.DBConnection;
 
 public class Main extends Application {
 
@@ -14,6 +15,10 @@ public class Main extends Application {
     public void start(Stage stage) throws IOException {
         try {
             System.out.println("Starting application...");
+            
+            // Initialize database first
+            System.out.println("Initializing database...");
+            DBConnection.initDatabase();
             
             // Load the FXML file
             System.out.println("Loading FXML...");

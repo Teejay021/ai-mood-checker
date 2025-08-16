@@ -3,6 +3,7 @@ package com.aimoodchecker.dao;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.sql.Statement;
 
 /**
  * Database connection utility class for SQLite
@@ -54,6 +55,32 @@ public class DBConnection {
             return connection != null && !connection.isClosed() && connection.isValid(5);
         } catch (SQLException e) {
             return false;
+        }
+    }
+    
+    /**
+     * Initialize database schema (creates tables if they don't exist)
+     * This is called once when the application starts
+     */
+    public static void initDatabase() {
+        String ddl = """
+            CREATE TABLE IF NOT EXISTS mood_entries (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                date TEXT NOT NULL,
+                mood_type TEXT NOT NULL,
+                description TEXT,
+                sentiment_score REAL,
+                created_at TEXT DEFAULT CURRENT_TIMESTAMP
+            );
+            """;
+            
+        try (Connection conn = getConnection();
+             Statement stmt = conn.createStatement()) {
+            stmt.execute(ddl);
+            System.out.println("Database schema initialized successfully");
+        } catch (SQLException e) {
+            System.err.println("Error initializing database schema: " + e.getMessage());
+            e.printStackTrace();
         }
     }
 }

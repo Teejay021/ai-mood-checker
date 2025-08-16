@@ -99,3 +99,8 @@ Thumbs.db
 mood.db
 *.properties
 config.ini
+
+# Environment variables and API keys
+.env
+.env.local
+.env.*.local
