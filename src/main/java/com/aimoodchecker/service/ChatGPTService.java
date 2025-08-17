@@ -5,6 +5,8 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.net.URI;
 import java.time.Duration;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.JsonNode;
 
 /**
  * Service class for making API calls to ChatGPT/OpenAI
@@ -14,8 +16,11 @@ public class ChatGPTService {
     
     private static final String OPENAI_API_URL = "https://api.openai.com/v1/chat/completions";
     
+    private static final ObjectMapper MAPPER = new ObjectMapper();
+    
     private final HttpClient httpClient;
     
+    //Setting up the HTTP client  
     public ChatGPTService() {
         this.httpClient = HttpClient.newBuilder()
                 .connectTimeout(Duration.ofSeconds(10))
@@ -34,6 +39,8 @@ public class ChatGPTService {
             // Create the request body for ChatGPT
             String requestBody = createChatGPTRequest(moodDescription);
             
+            
+            
             // Build HTTP request
             HttpRequest request = HttpRequest.newBuilder()
                     .uri(URI.create(OPENAI_API_URL))
@@ -43,13 +50,14 @@ public class ChatGPTService {
                     .timeout(Duration.ofSeconds(30))
                     .build();
             
-            // Send request and get response
+            
             HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
             
-            // Process the response
+            
             if (response.statusCode() == 200) {
                 return parseChatGPTResponse(response.body());
             } else {
+                
                 System.err.println("API call failed with status: " + response.statusCode());
                 return "API call failed: " + response.statusCode();
             }
@@ -88,24 +96,23 @@ public class ChatGPTService {
      */
     private String parseChatGPTResponse(String responseBody) {
         try {
-            // Parse the actual ChatGPT response format
-            if (responseBody.contains("\"content\":")) {
-                // Find the content field in the message
-                int contentIndex = responseBody.indexOf("\"content\":");
-                if (contentIndex != -1) {
-                    // Find the start of the content value
-                    int startIndex = responseBody.indexOf("\"", contentIndex + 11) + 1;
-                    // Find the end of the content value
-                    int endIndex = responseBody.indexOf("\"", startIndex);
-                    if (endIndex > startIndex) {
-                        return responseBody.substring(startIndex, endIndex).trim();
-                    }
-                }
+            JsonNode root = MAPPER.readTree(responseBody);
+
+            // choices should be an array with at least one item
+            JsonNode choices = root.path("choices");
+            if (!choices.isArray() || choices.isEmpty()) {
+                return "No choices in response";
             }
-            return "Response parsing failed";
+
+            // message.content is where the assistant text lives in Chat Completions
+            JsonNode message = choices.get(0).path("message");
+            String content = message.path("content").asText(null);
+
+            return (content != null && !content.isBlank())
+                    ? content.trim()
+                    : "No content in response";
         } catch (Exception e) {
-            System.err.println("Error parsing ChatGPT response: " + e.getMessage());
-            return "Response parsing error";
+            return "Response parsing error: " + e.getMessage();
         }
     }
     

@@ -14,8 +14,6 @@ public class SentimentService {
      * @return Placeholder sentiment score
      */
     public double analyzeSentiment(String text) {
-        // TODO: Implement local sentiment analysis
-        // For now, return neutral score
         return 0.5;
     }
     

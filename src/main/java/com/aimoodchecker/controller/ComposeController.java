@@ -3,6 +3,7 @@ package com.aimoodchecker.controller;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextArea;
 import com.aimoodchecker.service.SentimentService;
+import com.aimoodchecker.service.ChatGPTService;
 import com.aimoodchecker.repository.EntryRepository;
 import com.aimoodchecker.dao.DBConnection;
 import java.sql.Connection;
@@ -16,11 +17,12 @@ public class ComposeController implements RoutedController, NeedsDeps {
     private AppController app;
     private EntryRepository repo;
     private SentimentService sentiment;
+    private ChatGPTService chatGPT;
 
     @FXML private TextArea moodText;
 
     @Override public void setApp(AppController app) { this.app = app; }
-    @Override public void init(EntryRepository r, SentimentService s) { this.repo = r; this.sentiment = s; }
+    @Override public void init(EntryRepository r, SentimentService s, ChatGPTService c) { this.repo = r; this.sentiment = s; this.chatGPT = c; }
 
 
     private String selectedMood = "Neutral"; // Default mood
@@ -72,7 +74,7 @@ public class ComposeController implements RoutedController, NeedsDeps {
         String currentDate = java.time.LocalDate.now().toString();
         
         // SQL command to insert a new mood entry
-        String sql = "INSERT INTO mood_entries (date, mood_type, description) VALUES (?, ?, ?)";
+        String sql = "INSERT INTO mood_entries (date, mood_type, description, sentiment_score) VALUES (?, ?, ?, ?)";
         
         try (Connection conn = DBConnection.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
@@ -80,7 +82,8 @@ public class ComposeController implements RoutedController, NeedsDeps {
             
             pstmt.setString(1, currentDate);           
             pstmt.setString(2, selectedMood);          
-            pstmt.setString(3, description);         
+            pstmt.setString(3, description);        
+            pstmt.setDouble(4, chatGPT.getSentimentScore(description));
             
             // Execute the command
             int rowsAffected = pstmt.executeUpdate();

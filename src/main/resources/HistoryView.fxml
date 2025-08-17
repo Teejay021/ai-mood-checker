@@ -23,7 +23,8 @@
             <columns>
                 <TableColumn fx:id="dateColumn" text="Date" prefWidth="120"/>
                 <TableColumn fx:id="moodColumn" text="Mood" prefWidth="100"/>
-                <TableColumn fx:id="descriptionColumn" text="Description" prefWidth="300"/>
+                <TableColumn fx:id="descriptionColumn" text="Description" prefWidth="250"/>
+                <TableColumn fx:id="sentimentColumn" text="AI Sentiment" prefWidth="100"/>
             </columns>
         </TableView>
         

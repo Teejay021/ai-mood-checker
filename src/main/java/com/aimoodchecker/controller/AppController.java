@@ -6,6 +6,7 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.StackPane;
 import java.io.IOException;
 import com.aimoodchecker.service.SentimentService;
+import com.aimoodchecker.service.ChatGPTService;
 import com.aimoodchecker.repository.EntryRepository;
 
 public class AppController {
@@ -15,6 +16,7 @@ public class AppController {
 
     private final EntryRepository repo = EntryRepository.getInstance();
     private final SentimentService sentiment = new SentimentService();
+    private final ChatGPTService chatGPT = new ChatGPTService();
 
     @FXML
     private void initialize(){
@@ -27,7 +29,7 @@ public class AppController {
             Parent page = loader.load();
             Object c = loader.getController();
 
-            if (c instanceof NeedsDeps nd) nd.init(repo, sentiment);
+            if (c instanceof NeedsDeps nd) nd.init(repo, sentiment, chatGPT);
 
             if (c instanceof RoutedController rc) rc.setApp(this);
 
