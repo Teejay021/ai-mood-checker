@@ -67,15 +67,13 @@ public class HistoryController implements RoutedController {
                 
                 // Loop through each row (each mood entry)
                 while (rs.next()) {
-                    // Get data from each column
                     int id = rs.getInt("id");
                     String dateStr = rs.getString("date");
                     String moodType = rs.getString("mood_type");
                     String description = rs.getString("description");
                     Double sentimentScore = rs.getDouble("sentiment_score");
                     String createdAt = rs.getString("created_at");
-                    
-                    // Convert date string to LocalDate
+
                     LocalDate date = null;
                     try {
                         date = LocalDate.parse(dateStr);
@@ -103,6 +101,7 @@ public class HistoryController implements RoutedController {
                 } else {
                     noDataLabel.setVisible(false);
                     historyTable.setVisible(true);
+                    
                 }
                 
             }

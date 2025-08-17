@@ -22,6 +22,9 @@
             <Button text="😔 Sad" onAction="#onSad" style="-fx-font-size:14px;"/>
         </HBox>
         
+        <Label fx:id="selectedMoodLabel" text="No mood selected yet" 
+               style="-fx-font-size:14px; -fx-text-fill: gray; -fx-font-style: italic;"/>
+        
         <Label text="describe your mood:" style="-fx-font-size:14px;"/>
         <TextArea fx:id="moodText" promptText="Describe how you're feeling..." 
                   prefRowCount="4" wrapText="true"/>
