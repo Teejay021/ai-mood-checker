@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.geometry.Insets?>
+
+<VBox xmlns="http://javafx.com/javafx/17"
+      xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.aimoodchecker.controller.GraphController"
+      spacing="12" 
+      style="-fx-padding: 16;">
+
+    <HBox spacing="10" alignment="CENTER_LEFT">
+        <Button text="Back" onAction="#onBack" />
+        <Label text="Mood Trends" style="-fx-font-size:20; -fx-font-weight:bold;" />
+        <Pane HBox.hgrow="ALWAYS" />
+        <Label text="Range:" />
+        <ComboBox fx:id="rangeCombo" prefWidth="120" />
+        <Button text="Refresh" onAction="#onRefresh" />
+    </HBox>
+
+    <!-- Status label for feedback -->
+    <Label fx:id="statusLabel" 
+           text="Ready to display trends" 
+           style="-fx-font-size:14; -fx-text-fill: #666; -fx-alignment: center;" />
+
+    <!-- Chart container -->
+    <VBox fx:id="chartContainer" VBox.vgrow="ALWAYS" />
+
+    <Label text="Tip: Both your mood and AI sentiment are displayed on the same 0-1 scale for easy comparison."
+           style="-fx-font-size:12; -fx-text-fill: #666; -fx-alignment: center;" />
+
+</VBox>

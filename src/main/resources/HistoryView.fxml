@@ -31,4 +31,7 @@
         <Label fx:id="noDataLabel" text="No mood entries yet. Start by logging your first mood!" 
                style="-fx-font-size:14px; -fx-text-fill: gray;" visible="false"/>
     </VBox>
+    <HBox alignment= "CENTER">
+        <Button text = "view graph" onAction = "#onViewGraph" style= "-fx-font-size:14px;"/>
+    </HBox>
 </VBox>

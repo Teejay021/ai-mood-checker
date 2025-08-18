@@ -70,3 +70,126 @@
     -fx-opacity: 0.6;
     -fx-cursor: default;
 }
+
+/* ===== TREND CHART STYLING ===== */
+
+.trend-chart {
+    -fx-background-color: white;
+    -fx-border-color: #e0e0e0;
+    -fx-border-width: 1px;
+    -fx-border-radius: 5px;
+    -fx-background-radius: 5px;
+    -fx-padding: 10px;
+}
+
+.trend-chart .chart-title {
+    -fx-font-size: 18px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #2c3e50;
+}
+
+.trend-chart .axis-label {
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #34495e;
+}
+
+.trend-chart .axis-tick-label {
+    -fx-font-size: 12px;
+    -fx-text-fill: #7f8c8d;
+}
+
+.trend-chart .chart-legend {
+    -fx-background-color: #f8f9fa;
+    -fx-border-color: #dee2e6;
+    -fx-border-width: 1px;
+    -fx-border-radius: 3px;
+    -fx-padding: 5px;
+}
+
+.trend-chart .chart-legend-item {
+    -fx-padding: 5px;
+}
+
+.trend-chart .chart-legend-item-label {
+    -fx-font-size: 12px;
+    -fx-text-fill: #495057;
+}
+
+/* Chart series styling */
+.trend-chart .chart-series-line {
+    -fx-stroke-width: 2px;
+}
+
+.trend-chart .chart-series-line.series0 {
+    -fx-stroke: #3498db; /* Blue for mood (normalized to 0-1) */
+}
+
+.trend-chart .chart-series-line.series1 {
+    -fx-stroke: #e74c3c; /* Red for AI sentiment (0-1) */
+}
+
+.trend-chart .chart-line-symbol {
+    -fx-background-color: white;
+    -fx-border-color: inherit;
+    -fx-border-width: 2px;
+    -fx-padding: 3px;
+}
+
+.trend-chart .chart-line-symbol.series0 {
+    -fx-border-color: #3498db;
+}
+
+.trend-chart .chart-line-symbol.series1 {
+    -fx-border-color: #e74c3c;
+}
+
+/* Chart grid styling */
+.trend-chart .chart-horizontal-grid-lines {
+    -fx-stroke: #ecf0f1;
+    -fx-stroke-width: 0.5px;
+}
+
+.trend-chart .chart-vertical-grid-lines {
+    -fx-stroke: #ecf0f1;
+    -fx-stroke-width: 0.5px;
+}
+
+/* Chart background */
+.trend-chart .chart-plot-background {
+    -fx-background-color: #fafbfc;
+}
+
+/* ===== STATUS LABEL STYLING ===== */
+
+.status-label {
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-padding: 5px 10px;
+    -fx-border-radius: 3px;
+    -fx-background-radius: 3px;
+}
+
+.status-label.success {
+    -fx-background-color: #d4edda;
+    -fx-text-fill: #155724;
+    -fx-border-color: #c3e6cb;
+}
+
+.status-label.error {
+    -fx-background-color: #f8d7da;
+    -fx-text-fill: #721c24;
+    -fx-border-color: #f5c6cb;
+}
+
+.status-label.warning {
+    -fx-background-color: #fff3cd;
+    -fx-text-fill: #856404;
+    -fx-border-color: #ffeaa7;
+}
+
+.status-label.info {
+    -fx-background-color: #d1ecf1;
+    -fx-text-fill: #0c5460;
+    -fx-border-color: #bee5eb;
+}

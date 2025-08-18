@@ -18,7 +18,7 @@ import javafx.scene.control.Alert.AlertType;
 public class ComposeController implements RoutedController, NeedsDeps {
     
     private AppController app;
-    private EntryRepository repo;
+    private EntryRepository entryRepository;
     private SentimentService sentiment;
     private ChatGPTService chatGPT;
 
@@ -33,7 +33,12 @@ public class ComposeController implements RoutedController, NeedsDeps {
     }
     
     @Override public void setApp(AppController app) { this.app = app; }
-    @Override public void init(EntryRepository r, SentimentService s, ChatGPTService c) { this.repo = r; this.sentiment = s; this.chatGPT = c; }
+    @Override
+    public void init(EntryRepository repo, SentimentService sentiment, ChatGPTService chatGPT) {
+        this.entryRepository = repo;
+        this.sentiment = sentiment;
+        this.chatGPT = chatGPT;
+    }
 
 
     private String selectedMood = "Neutral"; // Default mood
@@ -82,8 +87,8 @@ public class ComposeController implements RoutedController, NeedsDeps {
                 return;
             }
             
-            // Save to database
-            saveMoodToDatabase(description);
+            // Save to database using repository
+            entryRepository.saveMoodEntry(selectedMood, description);
             
             app.setStatus("Mood saved successfully!"); 
             app.goHome();
@@ -102,35 +107,7 @@ public class ComposeController implements RoutedController, NeedsDeps {
         alert.showAndWait();
     }
     
-    /**
-     * Saves the mood entry to the database
-     */
-    private void saveMoodToDatabase(String description) throws SQLException {
-       
-        String currentDate = java.time.LocalDate.now().toString();
-        
-        // SQL command to insert a new mood entry
-        String sql = "INSERT INTO mood_entries (date, mood_type, description, sentiment_score) VALUES (?, ?, ?, ?)";
-        
-        try (Connection conn = DBConnection.getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
-            
-            
-            pstmt.setString(1, currentDate);           
-            pstmt.setString(2, selectedMood);          
-            pstmt.setString(3, description);        
-            pstmt.setDouble(4, chatGPT.getSentimentScore(description));
-            
-            // Execute the command
-            int rowsAffected = pstmt.executeUpdate();
-            
-            if (rowsAffected > 0) {
-                System.out.println("Mood saved to database successfully!");
-            } else {
-                System.out.println("No rows were affected when saving mood.");
-            }
-        }
-    }
+    // Remove the old saveMoodToDatabase method since we're now using the repository
 
     @FXML private void onCancel() { app.goHome(); }
 }

@@ -7,17 +7,19 @@ import javafx.scene.control.Label;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import com.aimoodchecker.dao.DBConnection;
+import com.aimoodchecker.repository.EntryRepository;
 import com.aimoodchecker.model.MoodEntry;
-import java.sql.Connection;
-import java.sql.Statement;
-import java.sql.ResultSet;
+import com.aimoodchecker.service.SentimentService;
+import com.aimoodchecker.service.ChatGPTService;
 import java.sql.SQLException;
-import java.time.LocalDate;
+import java.util.List;
 
-public class HistoryController implements RoutedController {
+public class HistoryController implements RoutedController, NeedsDeps {
     
     private AppController app;
+    private EntryRepository entryRepository;
+    private SentimentService sentiment;
+    private ChatGPTService chatGPT;
     
     @FXML private TableView<MoodEntry> historyTable;
     @FXML private TableColumn<MoodEntry, String> dateColumn;
@@ -42,6 +44,13 @@ public class HistoryController implements RoutedController {
         loadMoodHistory();
     }
 
+    @Override
+    public void init(EntryRepository repo, SentimentService sentiment, ChatGPTService chatGPT) {
+        this.entryRepository = repo;
+        this.sentiment = sentiment;
+        this.chatGPT = chatGPT;
+    }
+
     @FXML
     private void onRefresh() {
         // Load and display mood history data
@@ -54,56 +63,31 @@ public class HistoryController implements RoutedController {
      */
     private void loadMoodHistory() {
         try {
-            // SQL command to get all mood entries, newest first
-            String sql = "SELECT * FROM mood_entries ORDER BY date DESC, created_at DESC";
+            // Use repository to get all mood entries
+            List<MoodEntry> moodEntries = entryRepository.getAllMoodEntries();
             
-            ObservableList<MoodEntry> moodEntries = FXCollections.observableArrayList();
+            System.out.println("=== Loading Mood History ===");
             
-            try (Connection conn = DBConnection.getConnection();
-                 Statement stmt = conn.createStatement();
-                 ResultSet rs = stmt.executeQuery(sql)) {
-                
-                System.out.println("=== Loading Mood History ===");
-                
-                // Loop through each row (each mood entry)
-                while (rs.next()) {
-                    int id = rs.getInt("id");
-                    String dateStr = rs.getString("date");
-                    String moodType = rs.getString("mood_type");
-                    String description = rs.getString("description");
-                    Double sentimentScore = rs.getDouble("sentiment_score");
-                    String createdAt = rs.getString("created_at");
-
-                    LocalDate date = null;
-                    try {
-                        date = LocalDate.parse(dateStr);
-                    } catch (Exception e) {
-                        System.err.println("Error parsing date: " + dateStr);
-                    }
-                    
-                    // Create MoodEntry object and add to list
-                    MoodEntry entry = new MoodEntry(id, date, moodType, description, sentimentScore, createdAt);
-                    moodEntries.add(entry);
-                    
-                    // Print each mood entry (for debugging)
-                    System.out.println("ID: " + id + " | Date: " + date + " | Mood: " + moodType + " | Description: " + description + " | Sentiment Score: " + sentimentScore);
-                }
-                
-                System.out.println("=== End of Mood History ===");
-                
-                // Update the TableView with the data
-                historyTable.setItems(moodEntries);
-                
-                // Show/hide no data label
-                if (moodEntries.isEmpty()) {
-                    noDataLabel.setVisible(true);
-                    historyTable.setVisible(false);
-                } else {
-                    noDataLabel.setVisible(false);
-                    historyTable.setVisible(true);
-                    
-                }
-                
+            for (MoodEntry entry : moodEntries) {
+                System.out.println("ID: " + entry.getId() + 
+                                 " | Date: " + entry.getDate() + 
+                                 " | Mood: " + entry.getMoodType() + 
+                                 " | Description: " + entry.getDescription() + 
+                                 " | Sentiment Score: " + entry.getSentimentScore());
+            }
+            
+            System.out.println("=== End of Mood History ===");
+            
+            // Convert to ObservableList for TableView
+            ObservableList<MoodEntry> observableEntries = FXCollections.observableArrayList(moodEntries);
+            historyTable.setItems(observableEntries);
+            
+            if (moodEntries.isEmpty()) {
+                noDataLabel.setVisible(true);
+                historyTable.setVisible(false);
+            } else {
+                noDataLabel.setVisible(false);
+                historyTable.setVisible(true);
             }
             
         } catch (SQLException e) {
@@ -116,5 +100,10 @@ public class HistoryController implements RoutedController {
     @FXML
     private void onBackHome() {
         app.goHome();
+    }
+
+    @FXML
+    private void onViewGraph() {
+        app.goGraph();
     }
 }

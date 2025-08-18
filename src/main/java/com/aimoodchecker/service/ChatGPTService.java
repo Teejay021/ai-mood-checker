@@ -78,7 +78,7 @@ public class ChatGPTService {
                 "messages": [
                     {
                         "role": "system",
-                        "content": "You are a mental health AI assistant. Analyze the sentiment of the user's mood description and provide a brief, supportive response. Focus on understanding and empathy."
+                        "content": "You are a mental health AI assistant. Analyze the sentiment of the user's mood description and provide a score between 0.0 to 1.0. Focus on understanding and empathy."
                     },
                     {
                         "role": "user",

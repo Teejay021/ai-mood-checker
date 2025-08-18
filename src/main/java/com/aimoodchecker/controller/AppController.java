@@ -49,6 +49,7 @@ public class AppController {
     public void goHome()    { setContent("/HomeView.fxml"); }
     public void goCompose() { setContent("/ComposeView.fxml"); }
     public void goHistory() { setContent("/HistoryView.fxml"); }
+    public void goGraph()   {setContent("/GraphView.fxml");}
     
 
 
