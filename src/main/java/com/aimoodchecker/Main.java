@@ -39,6 +39,7 @@ public class Main extends Application {
             System.err.println("Error starting application: " + e.getMessage());
             e.printStackTrace();
             throw e;
+                  
         }
     }
 

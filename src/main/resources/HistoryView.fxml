@@ -19,12 +19,13 @@
             <Button text="Back to Home" onAction="#onBackHome" style="-fx-font-size:14px;"/>
         </HBox>
         
-        <TableView fx:id="historyTable" VBox.vgrow="ALWAYS">
+        <TableView fx:id="historyTable" VBox.vgrow="ALWAYS" styleClass="history-table">
             <columns>
                 <TableColumn fx:id="dateColumn" text="Date" prefWidth="120"/>
                 <TableColumn fx:id="moodColumn" text="Mood" prefWidth="100"/>
-                <TableColumn fx:id="descriptionColumn" text="Description" prefWidth="250"/>
+                <TableColumn fx:id="descriptionColumn" text="Description" prefWidth="200"/>
                 <TableColumn fx:id="sentimentColumn" text="AI Sentiment" prefWidth="100"/>
+                <TableColumn fx:id="actionsColumn" text="Actions" prefWidth="80"/>
             </columns>
         </TableView>
         
