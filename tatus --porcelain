@@ -1,0 +1,5 @@
+[33m95c4e6a[m[33m ([m[1;36mHEAD -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m)[m Add intelligent AI mood coaching system with personalized suggestions based on mood history patterns
+[33m337f423[m Add delete functionality to mood history
+[33m740a67b[m Initial implementation of mood trends graph - Add GraphController with LineChart for mood vs AI sentiment visualization - Implement daily averaging of multiple entries per day - Add range selection (7/30/90 days) with proper chart updates - Include comprehensive data validation and debugging - Fix vertical line issues with proper X-axis configuration
+[33ma7b9a70[m Add required mood selection validation with visual feedback and error dialogs
+[33mbc4b9af[m Implement functional TableView for mood history with AI sentiment display

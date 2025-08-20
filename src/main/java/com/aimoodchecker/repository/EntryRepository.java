@@ -14,10 +14,9 @@ import java.util.stream.Collectors;
 
 public class EntryRepository {
     private static EntryRepository instance;
-    private final ChatGPTService chatGPT;
     
     private EntryRepository() {
-        this.chatGPT = new ChatGPTService();
+        // No ChatGPTService instantiation here to avoid circular dependency
     }
     
     public static EntryRepository getInstance() {
@@ -41,7 +40,7 @@ public class EntryRepository {
             pstmt.setString(1, LocalDate.now().toString());
             pstmt.setString(2, moodType);
             pstmt.setString(3, description);
-            pstmt.setDouble(4, chatGPT.getSentimentScore(description));
+            pstmt.setDouble(4, new ChatGPTService().getSentimentScore(description));
             
             int rowsAffected = pstmt.executeUpdate();
             if (rowsAffected == 0) {
@@ -154,7 +153,7 @@ public class EntryRepository {
             
             pstmt.setString(1, moodType);
             pstmt.setString(2, description);
-            pstmt.setDouble(3, chatGPT.getSentimentScore(description));
+            pstmt.setDouble(3, new ChatGPTService().getSentimentScore(description));
             pstmt.setInt(4, id);
             
             int rowsAffected = pstmt.executeUpdate();

@@ -34,7 +34,8 @@ public class TestMoodCoaching {
         System.out.println("---");
         
         try {
-            String coaching = chatGPT.getMoodCoaching(mood, description);
+            EntryRepository repository = EntryRepository.getInstance();
+            String coaching = chatGPT.getMoodCoaching(mood, description, repository);
             System.out.println("AI Coaching Response:");
             System.out.println(coaching);
             System.out.println("\n" + "=".repeat(50) + "\n");

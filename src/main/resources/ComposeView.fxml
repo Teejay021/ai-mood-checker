@@ -11,39 +11,31 @@
       spacing="20"
       style="-fx-padding: 32;">
 
-    <Label text="Log Your Mood" style="-fx-font-size:24px; -fx-font-weight:bold;"/>
+    <Label text="Log Your Mood" style="-fx-font-size:28px; -fx-font-weight:bold; -fx-text-fill: #2c3e50;"/>
 
-    <VBox spacing="15" maxWidth="400">
-        <Label text="How are you feeling today?" style="-fx-font-size:16px;"/>
+    <VBox spacing="20" maxWidth="500">
+        <Label text="How are you feeling today?" style="-fx-font-size:18px; -fx-text-fill: #34495e;"/>
         
-        <HBox spacing="10" alignment="CENTER">
-            <Button text="😊 Happy" onAction="#onHappy" style="-fx-font-size:14px;"/>
-            <Button text="😐 Neutral" onAction="#onNeutral" style="-fx-font-size:14px;"/>
-            <Button text="😔 Sad" onAction="#onSad" style="-fx-font-size:14px;"/>
+        <HBox spacing="15" alignment="CENTER">
+            <Button text="😊 Happy" onAction="#onHappy" styleClass="mood-button happy-button"/>
+            <Button text="😐 Neutral" onAction="#onNeutral" styleClass="mood-button neutral-button"/>
+            <Button text="😔 Sad" onAction="#onSad" styleClass="mood-button sad-button"/>
         </HBox>
         
         <Label fx:id="selectedMoodLabel" text="No mood selected yet" 
-               style="-fx-font-size:14px; -fx-text-fill: gray; -fx-font-style: italic;"/>
+               style="-fx-font-size:16px; -fx-text-fill: gray; -fx-font-style: italic;"/>
         
-        <Label text="describe your mood:" style="-fx-font-size:14px;"/>
-        <TextArea fx:id="moodText" promptText="Describe how you're feeling..." 
-                  prefRowCount="4" wrapText="true"/>
+        <Label text="Describe your mood:" style="-fx-font-size:16px; -fx-text-fill: #34495e;"/>
+        <TextArea fx:id="moodText" promptText="Tell me more about how you're feeling..." 
+                  prefRowCount="4" wrapText="true" styleClass="modern-textarea"/>
         
-        <!-- Mood Coaching Section -->
-        <VBox fx:id="coachingContainer" spacing="10" styleClass="coaching-container" style="-fx-padding: 15;">
-            <Label text="💡 AI Mood Coaching" styleClass="coaching-title"/>
-            <Label fx:id="coachingLabel" text="Click the button below to get personalized suggestions based on your mood patterns." 
-                   styleClass="coaching-content" wrapText="true"/>
-        </VBox>
+
         
-        <Button fx:id="getCoachingButton" text="Get Mood Coaching" onAction="#onGetCoaching" 
-                styleClass="coaching-button"/>
-        
-        <HBox spacing="15" alignment="CENTER">
-            <Button fx:id="saveBtn" text="Save Entry" onAction="#onSave" 
-                    style="-fx-font-size:16px; -fx-background-color: #4CAF50; -fx-text-fill: white;"/>
-            <Button fx:id="cancelBtn" text="Cancel" onAction="#onCancel" 
-                    style="-fx-font-size:16px; -fx-background-color: #f44336; -fx-text-fill: white;"/>
+        <HBox spacing="20" alignment="CENTER">
+            <Button fx:id="saveBtn" text="💾 Save Mood" onAction="#onSave" 
+                    styleClass="modern-button primary-button"/>
+            <Button fx:id="cancelBtn" text="❌ Cancel" onAction="#onCancel" 
+                    styleClass="modern-button secondary-button"/>
         </HBox>
     </VBox>
 </VBox>

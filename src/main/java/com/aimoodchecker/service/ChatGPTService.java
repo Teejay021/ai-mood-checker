@@ -22,14 +22,12 @@ public class ChatGPTService {
     private static final String OPENAI_API_URL = "https://api.openai.com/v1/chat/completions";
     
     private final HttpClient httpClient;
-    private final EntryRepository entryRepository;
     
     //Setting up the HTTP client  
     public ChatGPTService() {
         this.httpClient = HttpClient.newBuilder()
                 .connectTimeout(Duration.ofSeconds(10))
                 .build();
-        this.entryRepository = EntryRepository.getInstance();
     }
     
     /**
@@ -72,9 +70,10 @@ public class ChatGPTService {
      * Provides intelligent mood coaching based on user's mood history and current state
      * @param currentMood The user's current mood type (Happy, Neutral, Sad)
      * @param currentDescription The user's current mood description
+     * @param entryRepository The repository to get mood patterns from
      * @return Personalized mood coaching suggestions
      */
-    public String getMoodCoaching(String currentMood, String currentDescription) {
+    public String getMoodCoaching(String currentMood, String currentDescription, EntryRepository entryRepository) {
         String apiKey = APIConfig.getOpenAIKey();
         
         try {
@@ -116,31 +115,26 @@ public class ChatGPTService {
             {
                 "model": "gpt-3.5-turbo",
                 "messages": [
-                    {
-                        "role": "system",
-                        "content": "You are an empathetic AI mood coach with expertise in mental health and wellness. Your role is to provide personalized, actionable suggestions to help users improve their mood based on their comprehensive mood history and current state. Be encouraging, practical, and consider their past positive experiences. Keep suggestions concise but meaningful (2-3 specific suggestions). Focus on activities, mindset shifts, or actions they can take immediately or within the next few hours. Consider their overall mood patterns and what has worked for them in the past."
-                    },
-                    {
-                        "role": "user",
-                        "content": "Current Mood: %s\\nCurrent Description: %s\\n\\nMy Comprehensive Mood Profile:\\n- Total Mood Entries: %d\\n- Happy Moments: %d\\n- Neutral Moments: %d\\n- Sad Moments: %d\\n- Overall Pattern: %s\\n- Recent Happy Moments: %s\\n- Recent Sad Moments: %s\\n\\nBased on this comprehensive analysis, please provide 2-3 personalized suggestions to help improve my mood. Consider:\\n1. What has made me happy in the past (use my happy moments as inspiration)\\n2. My overall mood pattern and how to shift it positively\\n3. Practical activities or mindset changes I can implement right now\\n\\nMake suggestions feel personal and relevant to my specific situation."
-                    }
+                                         {
+                         "role": "system",
+                         "content": "You are an empathetic AI mood coach. Provide 4-6 concise, actionable suggestions to help improve mood. Focus on practical activities they can do immediately. Be encouraging but brief - no long explanations needed. Just the suggestions."
+                     },
+                                         {
+                         "role": "user",
+                         "content": "Current Mood: %s\\nCurrent Description: %s\\n\\nMood History: %d total entries (%d happy, %d neutral, %d sad)\\n\\nGive me 4-6 quick, practical suggestions to improve my mood. Keep it brief and actionable."
+                     }
                 ],
-                "max_tokens": 400,
+                                 "max_tokens": 1200,
                 "temperature": 0.8
             }
-            """.formatted(
-                currentMood,
-                currentDescription,
-                moodPatterns.happyCount() + moodPatterns.neutralCount() + moodPatterns.sadCount(),
-                moodPatterns.happyCount(),
-                moodPatterns.neutralCount(),
-                moodPatterns.sadCount(),
-                moodPatterns.overallPattern(),
-                moodPatterns.recentHappyMoments().isEmpty() ? "None recorded" : 
-                    String.join(", ", moodPatterns.recentHappyMoments()),
-                moodPatterns.recentSadMoments().isEmpty() ? "None recorded" : 
-                    String.join(", ", moodPatterns.recentSadMoments())
-            );
+                         """.formatted(
+                 currentMood,
+                 currentDescription,
+                 moodPatterns.happyCount() + moodPatterns.neutralCount() + moodPatterns.sadCount(),
+                 moodPatterns.happyCount(),
+                 moodPatterns.neutralCount(),
+                 moodPatterns.sadCount()
+             );
     }
     
     /**
