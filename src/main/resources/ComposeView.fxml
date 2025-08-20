@@ -29,6 +29,16 @@
         <TextArea fx:id="moodText" promptText="Describe how you're feeling..." 
                   prefRowCount="4" wrapText="true"/>
         
+        <!-- Mood Coaching Section -->
+        <VBox fx:id="coachingContainer" spacing="10" styleClass="coaching-container" style="-fx-padding: 15;">
+            <Label text="💡 AI Mood Coaching" styleClass="coaching-title"/>
+            <Label fx:id="coachingLabel" text="Click the button below to get personalized suggestions based on your mood patterns." 
+                   styleClass="coaching-content" wrapText="true"/>
+        </VBox>
+        
+        <Button fx:id="getCoachingButton" text="Get Mood Coaching" onAction="#onGetCoaching" 
+                styleClass="coaching-button"/>
+        
         <HBox spacing="15" alignment="CENTER">
             <Button fx:id="saveBtn" text="Save Entry" onAction="#onSave" 
                     style="-fx-font-size:16px; -fx-background-color: #4CAF50; -fx-text-fill: white;"/>

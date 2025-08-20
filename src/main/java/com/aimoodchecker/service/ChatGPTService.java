@@ -5,26 +5,31 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.net.URI;
 import java.time.Duration;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.JsonNode;
+import java.time.LocalDate;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+import com.aimoodchecker.model.MoodEntry;
+import com.aimoodchecker.repository.EntryRepository;
+import com.aimoodchecker.repository.EntryRepository.MoodPatterns;
 
 /**
  * Service class for making API calls to ChatGPT/OpenAI
- * Handles sentiment analysis and mood insights
+ * Handles sentiment analysis and intelligent mood coaching
  */
 public class ChatGPTService {
     
     private static final String OPENAI_API_URL = "https://api.openai.com/v1/chat/completions";
     
-    private static final ObjectMapper MAPPER = new ObjectMapper();
-    
     private final HttpClient httpClient;
+    private final EntryRepository entryRepository;
     
     //Setting up the HTTP client  
     public ChatGPTService() {
         this.httpClient = HttpClient.newBuilder()
                 .connectTimeout(Duration.ofSeconds(10))
                 .build();
+        this.entryRepository = EntryRepository.getInstance();
     }
     
     /**
@@ -39,7 +44,45 @@ public class ChatGPTService {
             // Create the request body for ChatGPT
             String requestBody = createChatGPTRequest(moodDescription);
             
+            // Build HTTP request
+            HttpRequest request = HttpRequest.newBuilder()
+                    .uri(URI.create(OPENAI_API_URL))
+                    .header("Content-Type", "application/json")
+                    .header("Authorization", "Bearer " + apiKey)
+                    .POST(HttpRequest.BodyPublishers.ofString(requestBody))
+                    .timeout(Duration.ofSeconds(30))
+                    .build();
             
+            HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
+            
+            if (response.statusCode() == 200) {
+                return parseChatGPTResponse(response.body());
+            } else {
+                System.err.println("API call failed with status: " + response.statusCode());
+                return "API call failed: " + response.statusCode();
+            }
+            
+        } catch (Exception e) {
+            System.err.println("Error calling ChatGPT API: " + e.getMessage());
+            return "Error: " + e.getMessage();
+        }
+    }
+
+    /**
+     * Provides intelligent mood coaching based on user's mood history and current state
+     * @param currentMood The user's current mood type (Happy, Neutral, Sad)
+     * @param currentDescription The user's current mood description
+     * @return Personalized mood coaching suggestions
+     */
+    public String getMoodCoaching(String currentMood, String currentDescription) {
+        String apiKey = APIConfig.getOpenAIKey();
+        
+        try {
+            // Get comprehensive mood patterns from repository
+            MoodPatterns moodPatterns = entryRepository.getMoodPatterns();
+            
+            // Create the coaching request body with enhanced data
+            String requestBody = createEnhancedCoachingRequest(currentMood, currentDescription, moodPatterns);
             
             // Build HTTP request
             HttpRequest request = HttpRequest.newBuilder()
@@ -50,22 +93,54 @@ public class ChatGPTService {
                     .timeout(Duration.ofSeconds(30))
                     .build();
             
-            
             HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
-            
             
             if (response.statusCode() == 200) {
                 return parseChatGPTResponse(response.body());
             } else {
-                
-                System.err.println("API call failed with status: " + response.statusCode());
-                return "API call failed: " + response.statusCode();
+                System.err.println("Coaching API call failed with status: " + response.statusCode());
+                return "Unable to get coaching suggestions at the moment. Please try again later.";
             }
             
         } catch (Exception e) {
-            System.err.println("Error calling ChatGPT API: " + e.getMessage());
-            return "Error: " + e.getMessage();
+            System.err.println("Error getting mood coaching: " + e.getMessage());
+            return "I'm having trouble analyzing your mood patterns right now. Please try again later.";
         }
+    }
+
+    /**
+     * Creates the enhanced JSON request body for mood coaching with comprehensive pattern data
+     */
+    private String createEnhancedCoachingRequest(String currentMood, String currentDescription, MoodPatterns moodPatterns) {
+        return """
+            {
+                "model": "gpt-3.5-turbo",
+                "messages": [
+                    {
+                        "role": "system",
+                        "content": "You are an empathetic AI mood coach with expertise in mental health and wellness. Your role is to provide personalized, actionable suggestions to help users improve their mood based on their comprehensive mood history and current state. Be encouraging, practical, and consider their past positive experiences. Keep suggestions concise but meaningful (2-3 specific suggestions). Focus on activities, mindset shifts, or actions they can take immediately or within the next few hours. Consider their overall mood patterns and what has worked for them in the past."
+                    },
+                    {
+                        "role": "user",
+                        "content": "Current Mood: %s\\nCurrent Description: %s\\n\\nMy Comprehensive Mood Profile:\\n- Total Mood Entries: %d\\n- Happy Moments: %d\\n- Neutral Moments: %d\\n- Sad Moments: %d\\n- Overall Pattern: %s\\n- Recent Happy Moments: %s\\n- Recent Sad Moments: %s\\n\\nBased on this comprehensive analysis, please provide 2-3 personalized suggestions to help improve my mood. Consider:\\n1. What has made me happy in the past (use my happy moments as inspiration)\\n2. My overall mood pattern and how to shift it positively\\n3. Practical activities or mindset changes I can implement right now\\n\\nMake suggestions feel personal and relevant to my specific situation."
+                    }
+                ],
+                "max_tokens": 400,
+                "temperature": 0.8
+            }
+            """.formatted(
+                currentMood,
+                currentDescription,
+                moodPatterns.happyCount() + moodPatterns.neutralCount() + moodPatterns.sadCount(),
+                moodPatterns.happyCount(),
+                moodPatterns.neutralCount(),
+                moodPatterns.sadCount(),
+                moodPatterns.overallPattern(),
+                moodPatterns.recentHappyMoments().isEmpty() ? "None recorded" : 
+                    String.join(", ", moodPatterns.recentHappyMoments()),
+                moodPatterns.recentSadMoments().isEmpty() ? "None recorded" : 
+                    String.join(", ", moodPatterns.recentSadMoments())
+            );
     }
     
     /**
@@ -92,27 +167,60 @@ public class ChatGPTService {
     }
     
     /**
-     * Parses the ChatGPT API response
+     * Parses the ChatGPT API response using simple string parsing
      */
     private String parseChatGPTResponse(String responseBody) {
         try {
-            JsonNode root = MAPPER.readTree(responseBody);
-
-            // choices should be an array with at least one item
-            JsonNode choices = root.path("choices");
-            if (!choices.isArray() || choices.isEmpty()) {
-                return "No choices in response";
+            // Simple JSON parsing without external libraries
+            // Look for the "content" field in the response
+            String content = extractContentFromResponse(responseBody);
+            
+            if (content != null && !content.trim().isEmpty()) {
+                return content.trim();
+            } else {
+                return "No content in response";
             }
-
-            // message.content is where the assistant text lives in Chat Completions
-            JsonNode message = choices.get(0).path("message");
-            String content = message.path("content").asText(null);
-
-            return (content != null && !content.isBlank())
-                    ? content.trim()
-                    : "No content in response";
         } catch (Exception e) {
             return "Response parsing error: " + e.getMessage();
+        }
+    }
+    
+    /**
+     * Extracts content from ChatGPT response using simple string parsing
+     */
+    private String extractContentFromResponse(String responseBody) {
+        try {
+            // Look for the content field in the JSON response
+            int contentIndex = responseBody.indexOf("\"content\":");
+            if (contentIndex == -1) {
+                return null;
+            }
+            
+            // Find the start of the content value
+            int startIndex = responseBody.indexOf("\"", contentIndex + 10);
+            if (startIndex == -1) {
+                return null;
+            }
+            
+            // Find the end of the content value
+            int endIndex = responseBody.indexOf("\"", startIndex + 1);
+            if (endIndex == -1) {
+                return null;
+            }
+            
+            // Extract the content between quotes
+            String content = responseBody.substring(startIndex + 1, endIndex);
+            
+            // Handle escaped quotes and newlines
+            content = content.replace("\\n", "\n")
+                           .replace("\\\"", "\"")
+                           .replace("\\\\", "\\");
+            
+            return content;
+            
+        } catch (Exception e) {
+            System.err.println("Error extracting content: " + e.getMessage());
+            return null;
         }
     }
     
@@ -139,5 +247,17 @@ public class ChatGPTService {
         }
         
         return 0.5; // Default neutral score
+    }
+
+    /**
+     * Convert mood type string to numeric score (1-5)
+     */
+    private double moodTypeToScore(String moodType) {
+        return switch (moodType) {
+            case "Happy" -> 5.0;
+            case "Neutral" -> 3.0;
+            case "Sad" -> 1.0;
+            default -> 3.0;
+        };
     }
 }

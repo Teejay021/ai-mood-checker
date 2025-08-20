@@ -286,6 +286,71 @@ public class EntryRepository {
         
         return new MoodStatistics(happyCount, neutralCount, sadCount, avgMoodScore, avgSentimentScore);
     }
+
+    /**
+     * Get mood patterns and insights for AI coaching
+     * @return MoodPatterns object containing insights about user's mood patterns
+     */
+    public MoodPatterns getMoodPatterns() throws SQLException {
+        List<MoodEntry> allEntries = getAllMoodEntries();
+        
+        if (allEntries.isEmpty()) {
+            return new MoodPatterns(0, 0, 0, 0.0, 0.0, "No data available", List.of(), List.of());
+        }
+        
+        // Basic counts
+        long happyCount = allEntries.stream().filter(e -> "Happy".equals(e.getMoodType())).count();
+        long neutralCount = allEntries.stream().filter(e -> "Neutral".equals(e.getMoodType())).count();
+        long sadCount = allEntries.stream().filter(e -> "Sad".equals(e.getMoodType())).count();
+        
+        // Calculate averages
+        double avgMoodScore = allEntries.stream()
+            .mapToDouble(e -> moodTypeToScore(e.getMoodType()))
+            .average()
+            .orElse(0.0);
+        
+        double avgSentimentScore = allEntries.stream()
+            .mapToDouble(e -> e.getSentimentScore() != null ? e.getSentimentScore() : 0.0)
+            .average()
+            .orElse(0.0);
+        
+        // Find recent happy moments (last 10)
+        List<String> recentHappyMoments = allEntries.stream()
+            .filter(e -> "Happy".equals(e.getMoodType()))
+            .limit(10)
+            .map(MoodEntry::getDescription)
+            .collect(Collectors.toList());
+        
+        // Find recent sad moments (last 5) to understand triggers
+        List<String> recentSadMoments = allEntries.stream()
+            .filter(e -> "Sad".equals(e.getMoodType()))
+            .limit(5)
+            .map(MoodEntry::getDescription)
+            .collect(Collectors.toList());
+        
+        // Determine overall pattern
+        String overallPattern = determineOverallPattern(happyCount, neutralCount, sadCount, avgMoodScore);
+        
+        return new MoodPatterns(happyCount, neutralCount, sadCount, avgMoodScore, avgSentimentScore, 
+                              overallPattern, recentHappyMoments, recentSadMoments);
+    }
+
+    /**
+     * Determines the overall mood pattern based on statistics
+     */
+    private String determineOverallPattern(long happyCount, long neutralCount, long sadCount, double avgMoodScore) {
+        int total = (int) (happyCount + neutralCount + sadCount);
+        if (total == 0) return "No mood data available";
+        
+        double happyPercentage = (double) happyCount / total * 100;
+        double sadPercentage = (double) sadCount / total * 100;
+        
+        if (happyPercentage >= 60) return "Generally positive outlook";
+        else if (sadPercentage >= 40) return "Tends toward negative moods";
+        else if (avgMoodScore >= 3.5) return "Moderately positive pattern";
+        else if (avgMoodScore <= 2.5) return "Moderately negative pattern";
+        else return "Balanced mood pattern";
+    }
     
     // ===== HELPER METHODS =====
     
@@ -338,6 +403,20 @@ public class EntryRepository {
         long sadCount, 
         double avgMoodScore, 
         double avgSentimentScore
+    ) {}
+
+    /**
+     * Record representing mood patterns and insights for AI coaching
+     */
+    public record MoodPatterns(
+        long happyCount, 
+        long neutralCount, 
+        long sadCount, 
+        double avgMoodScore, 
+        double avgSentimentScore, 
+        String overallPattern, 
+        List<String> recentHappyMoments, 
+        List<String> recentSadMoments
     ) {}
 }
 
