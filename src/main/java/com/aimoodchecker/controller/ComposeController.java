@@ -3,31 +3,20 @@ package com.aimoodchecker.controller;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.Label;
-import javafx.scene.control.Button;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.ButtonBar;
-import javafx.scene.control.TextArea;
-import javafx.scene.layout.VBox;
-import javafx.scene.layout.HBox;
-import javafx.geometry.Insets;
-import javafx.geometry.Pos;
+
 import com.aimoodchecker.service.SentimentService;
 import com.aimoodchecker.service.ChatGPTService;
 import com.aimoodchecker.repository.EntryRepository;
-import com.aimoodchecker.dao.DBConnection;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.sql.ResultSet;
+
 
 public class ComposeController implements RoutedController, NeedsDeps {
     
     private AppController app;
     private EntryRepository entryRepository;
-    private SentimentService sentiment;
     private ChatGPTService chatGPT;
 
     @FXML private TextArea moodText;
@@ -47,7 +36,6 @@ public class ComposeController implements RoutedController, NeedsDeps {
     @Override
     public void init(EntryRepository repo, SentimentService sentiment, ChatGPTService chatGPT) {
         this.entryRepository = repo;
-        this.sentiment = sentiment;
         this.chatGPT = chatGPT;
     }
 

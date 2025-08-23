@@ -10,9 +10,6 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.Priority;
-import javafx.geometry.Pos;
 import com.aimoodchecker.repository.EntryRepository;
 import com.aimoodchecker.model.MoodEntry;
 import com.aimoodchecker.service.SentimentService;
@@ -25,8 +22,6 @@ public class HistoryController implements RoutedController, NeedsDeps {
     
     private AppController app;
     private EntryRepository entryRepository;
-    private SentimentService sentiment;
-    private ChatGPTService chatGPT;
     
     @FXML private TableView<MoodEntry> historyTable;
     @FXML private TableColumn<MoodEntry, String> dateColumn;
@@ -80,8 +75,6 @@ public class HistoryController implements RoutedController, NeedsDeps {
     @Override
     public void init(EntryRepository repo, SentimentService sentiment, ChatGPTService chatGPT) {
         this.entryRepository = repo;
-        this.sentiment = sentiment;
-        this.chatGPT = chatGPT;
     }
 
     @FXML

@@ -8,34 +8,55 @@
       xmlns:fx="http://javafx.com/fxml/1" 
       fx:controller="com.aimoodchecker.controller.ComposeController"
       alignment="CENTER"
-      spacing="20"
-      style="-fx-padding: 32;">
+      spacing="32"
+      styleClass="glass-card"
+      style="-fx-padding: 48;">
 
-    <Label text="Log Your Mood" style="-fx-font-size:28px; -fx-font-weight:bold; -fx-text-fill: #2c3e50;"/>
+    <Label text="Log Your Mood" styleClass="title-label" alignment="CENTER"/>
 
-    <VBox spacing="20" maxWidth="500">
-        <Label text="How are you feeling today?" style="-fx-font-size:18px; -fx-text-fill: #34495e;"/>
+    <VBox spacing="32" maxWidth="600" alignment="CENTER">
+        <Label text="How are you feeling today?" 
+               styleClass="modern-label" 
+               alignment="CENTER"/>
         
-        <HBox spacing="15" alignment="CENTER">
-            <Button text="😊 Happy" onAction="#onHappy" styleClass="mood-button happy-button"/>
-            <Button text="😐 Neutral" onAction="#onNeutral" styleClass="mood-button neutral-button"/>
-            <Button text="😔 Sad" onAction="#onSad" styleClass="mood-button sad-button"/>
+        <HBox spacing="24" alignment="CENTER">
+            <Button text="😊 Happy" 
+                    onAction="#onHappy" 
+                    styleClass="mood-button happy-button"/>
+            <Button text="😐 Neutral" 
+                    onAction="#onNeutral" 
+                    styleClass="mood-button neutral-button"/>
+            <Button text="😔 Sad" 
+                    onAction="#onSad" 
+                    styleClass="mood-button sad-button"/>
         </HBox>
         
-        <Label fx:id="selectedMoodLabel" text="No mood selected yet" 
-               style="-fx-font-size:16px; -fx-text-fill: gray; -fx-font-style: italic;"/>
+        <Label fx:id="selectedMoodLabel" 
+               text="No mood selected yet" 
+               styleClass="mood-status-label"
+               alignment="CENTER"/>
         
-        <Label text="Describe your mood:" style="-fx-font-size:16px; -fx-text-fill: #34495e;"/>
-        <TextArea fx:id="moodText" promptText="Tell me more about how you're feeling..." 
-                  prefRowCount="4" wrapText="true" styleClass="modern-textarea"/>
+        <VBox spacing="16" alignment="CENTER">
+            <Label text="Describe your mood:" 
+                   styleClass="modern-label" 
+                   alignment="CENTER"/>
+            <TextArea fx:id="moodText" 
+                      promptText="Tell me more about how you're feeling..." 
+                      prefRowCount="5" 
+                      wrapText="true" 
+                      styleClass="modern-textarea"
+                      prefWidth="500"/>
+        </VBox>
         
-
-        
-        <HBox spacing="20" alignment="CENTER">
-            <Button fx:id="saveBtn" text="💾 Save Mood" onAction="#onSave" 
-                    styleClass="modern-button primary-button"/>
-            <Button fx:id="cancelBtn" text="❌ Cancel" onAction="#onCancel" 
-                    styleClass="modern-button secondary-button"/>
+        <HBox spacing="24" alignment="CENTER">
+            <Button fx:id="saveBtn" 
+                    text="💾 Save Mood" 
+                    onAction="#onSave" 
+                    styleClass="modern-button success-button"/>
+            <Button fx:id="cancelBtn" 
+                    text="❌ Cancel" 
+                    onAction="#onCancel" 
+                    styleClass="modern-button danger-button"/>
         </HBox>
     </VBox>
 </VBox>

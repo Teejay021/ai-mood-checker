@@ -1,0 +1,26 @@
+[1mdiff --git a/pom.xml b/pom.xml[m
+[1mindex 31d81d1..0d69aa1 100644[m
+[1m--- a/pom.xml[m
+[1m+++ b/pom.xml[m
+[36m@@ -14,8 +14,8 @@[m
+     <description>AI Mood Checker Application</description>[m
+ [m
+     <properties>[m
+[31m-        <maven.compiler.source>17</maven.compiler.source>[m
+[31m-        <maven.compiler.target>17</maven.compiler.target>[m
+[32m+[m[32m        <maven.compiler.source>24</maven.compiler.source>[m
+[32m+[m[32m        <maven.compiler.target>24</maven.compiler.target>[m
+         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>[m
+         <javafx.version>21.0.2</javafx.version>[m
+         <sqlite.version>3.44.1.0</sqlite.version>[m
+[36m@@ -67,8 +67,8 @@[m
+                 <artifactId>maven-compiler-plugin</artifactId>[m
+                 <version>3.11.0</version>[m
+                 <configuration>[m
+[31m-                    <source>17</source>[m
+[31m-                    <target>17</target>[m
+[32m+[m[32m                    <source>24</source>[m
+[32m+[m[32m                    <target>24</target>[m
+                 </configuration>[m
+             </plugin>[m
+             [m

@@ -16,7 +16,6 @@ public class TestMoodCoaching {
         try {
             // Initialize services
             ChatGPTService chatGPT = new ChatGPTService();
-            EntryRepository repository = EntryRepository.getInstance();
             
             // Test mood coaching for different scenarios
             testMoodCoaching(chatGPT, "Sad", "I'm feeling really down today. Work has been stressful and I'm not sure how to cope.");

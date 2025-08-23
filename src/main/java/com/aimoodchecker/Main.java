@@ -28,7 +28,7 @@ public class Main extends Application {
             
             // Create the scene
             Scene scene = new Scene(root,960,600);
-            // scene.getStylesheets().add(getClass().getResource("/styles.css").toExternalForm());
+            scene.getStylesheets().add(getClass().getResource("/styles.css").toExternalForm());
             
             // Set up the stage
             stage.setTitle("AI Mood Checker");
