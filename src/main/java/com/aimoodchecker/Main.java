@@ -16,24 +16,25 @@ public class Main extends Application {
         try {
             System.out.println("Starting application...");
             
-            // Initialize database first
+            // Initialize database
             System.out.println("Initializing database...");
             DBConnection.initDatabase();
-            
-            // Load the FXML file
+
             System.out.println("Loading FXML...");
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/App.fxml"));
 
             Parent root = loader.load();
             
-            // Create the scene
             Scene scene = new Scene(root,960,600);
             
-            // Load CSS with debugging
+            // Load CSS
             var css = getClass().getResource("/styles.css");
-            System.out.println("CSS URL: " + css);
-            scene.getStylesheets().add(css.toExternalForm());
-            System.out.println("Active stylesheets: " + scene.getStylesheets());
+            if (css != null) {
+                scene.getStylesheets().add(css.toExternalForm());
+                System.out.println("CSS loaded successfully");
+            } else {
+                System.err.println("CSS file not found!");
+            }
             
             // Set up the stage
             stage.setTitle("AI Mood Checker");

@@ -41,7 +41,7 @@ public class HistoryController implements RoutedController, NeedsDeps {
         
         // Set up the actions column with delete buttons
         actionsColumn.setCellFactory(param -> new TableCell<MoodEntry, Void>() {
-            private final Button deleteButton = new Button("🗑️");
+            private final Button deleteButton = new Button("🗑");
             
             {
                 deleteButton.getStyleClass().add("delete-button");

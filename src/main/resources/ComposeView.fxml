@@ -22,13 +22,13 @@
         <HBox spacing="24" alignment="CENTER">
             <Button text="😊 Happy" 
                     onAction="#onHappy" 
-                    styleClass="mood-button happy-button"/>
+                    styleClass="button mood-button happy-button"/>
             <Button text="😐 Neutral" 
                     onAction="#onNeutral" 
-                    styleClass="mood-button neutral-button"/>
+                    styleClass="button mood-button neutral-button"/>
             <Button text="😔 Sad" 
                     onAction="#onSad" 
-                    styleClass="mood-button sad-button"/>
+                    styleClass="button mood-button sad-button"/>
         </HBox>
         
         <Label fx:id="selectedMoodLabel" 

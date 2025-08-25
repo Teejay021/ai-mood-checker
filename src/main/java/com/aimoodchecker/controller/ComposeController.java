@@ -28,8 +28,6 @@ public class ComposeController implements RoutedController, NeedsDeps {
         // Set initial state
         selectedMoodLabel.setText("No mood selected yet");
         selectedMoodLabel.setStyle("-fx-text-fill: gray; -fx-font-style: italic;");
-        
-
     }
     
     @Override public void setApp(AppController app) { this.app = app; }

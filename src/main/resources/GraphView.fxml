@@ -11,23 +11,23 @@
       styleClass="glass-card"
       style="-fx-padding: 32;">
 
-    <HBox spacing="16" alignment="CENTER_LEFT">
-        <Button text="⬅️ Back" 
-                onAction="#onBack" 
-                styleClass="modern-button secondary-button"/>
-        <Label text="📊 Mood Trends" 
-               styleClass="title-label" 
-               style="-fx-font-size: 24px;"/>
-        <Pane HBox.hgrow="ALWAYS" />
-        <Label text="Range:" 
-               styleClass="modern-label"/>
-        <ComboBox fx:id="rangeCombo" 
-                  prefWidth="140"
-                  styleClass="modern-combo"/>
-        <Button text="🔄 Refresh" 
-                onAction="#onRefresh" 
-                styleClass="modern-button info-button"/>
-    </HBox>
+            <HBox spacing="16" alignment="CENTER_LEFT">
+            <Button text="← Back" 
+                    onAction="#onBack" 
+                    styleClass="modern-button secondary-button"/>
+            <Label text="📊 Mood Trends" 
+                   styleClass="title-label" 
+                   style="-fx-font-size: 24px;"/>
+            <Pane HBox.hgrow="ALWAYS" />
+            <Label text="Range:" 
+                   styleClass="modern-label"/>
+            <ComboBox fx:id="rangeCombo" 
+                      prefWidth="140"
+                      styleClass="modern-combo"/>
+            <Button text="🔄 Refresh" 
+                    onAction="#onRefresh" 
+                    styleClass="modern-button info-button small-button"/>
+        </HBox>
 
     <!-- Status label for feedback -->
     <Label fx:id="statusLabel" 
@@ -38,7 +38,6 @@
     <!-- Chart container -->
     <VBox fx:id="chartContainer" 
            VBox.vgrow="ALWAYS" 
-           styleClass="trend-chart"
            style="-fx-padding: 24;" />
 
     <Label text="💡 Tip: Both your mood and AI sentiment are displayed on the same 0-1 scale for easy comparison."

@@ -11,6 +11,34 @@
     -fx-outline-color: transparent;
 }
 
+/* Force ALL buttons to have modern styling by default */
+.button {
+    -fx-font-size: 20px !important;
+    -fx-font-weight: bold !important;
+    -fx-padding: 20 40 !important;
+    -fx-background-radius: 16 !important;
+    -fx-border-radius: 16 !important;
+    -fx-cursor: hand !important;
+    -fx-min-width: 200 !important;
+    -fx-min-height: 60 !important;
+    -fx-pref-width: 200 !important;
+    -fx-pref-height: 60 !important;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.2), 6, 0, 0, 2) !important;
+    -fx-border-width: 0 !important;
+    -fx-text-fill: white !important;
+    -fx-background-color: #8b5cf6 !important;  /* purple base */
+}
+
+.button:hover {
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.3), 8, 0, 0, 3) !important;
+    -fx-scale-x: 1.02 !important;
+    -fx-scale-y: 1.02 !important;
+}
+
+.button:pressed {
+    -fx-opacity: 0.8 !important;
+}
+
 /* Main container styles with unified purple theme */
 .main-container {
     -fx-background-color: linear-gradient(to bottom right, #3a0098, #4a0098, #5a0098);
@@ -55,22 +83,25 @@
 
 /* Ultra-modern button system with much larger sizing - HIGH SPECIFICITY */
 .button.modern-button {
-    -fx-font-size: 24px;
-    -fx-font-weight: bold;
-    -fx-padding: 32 64;
-    -fx-background-radius: 20;
-    -fx-border-radius: 20;
-    -fx-cursor: hand;
-    -fx-min-width: 350;
-    -fx-min-height: 80;
-    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.2), 8, 0, 0, 2);
-    -fx-border-width: 0;
-    -fx-text-fill: white;
-    -fx-background-color: #8b5cf6;
+    -fx-font-size: 24px !important;
+    -fx-font-weight: bold !important;
+    -fx-padding: 32 64 !important;
+    -fx-background-radius: 20 !important;
+    -fx-border-radius: 20 !important;
+    -fx-cursor: hand !important;
+    -fx-min-width: 350 !important;
+    -fx-min-height: 80 !important;
+    -fx-pref-width: 350 !important;
+    -fx-pref-height: 80 !important;
+    -fx-max-width: 400 !important;
+    -fx-max-height: 100 !important;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.2), 8, 0, 0, 2) !important;
+    -fx-border-width: 0 !important;
+    -fx-text-fill: white !important;
+    /* Remove background color to allow specific button classes to work */
 }
 
 .button.modern-button:hover {
-    -fx-background-color: #7c3aed;
     -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.3), 12, 0, 0, 4);
     -fx-scale-x: 1.02;
     -fx-scale-y: 1.02;
@@ -80,67 +111,70 @@
     -fx-opacity: 0.8;
 }
 
-/* Primary button with gradient - HIGH SPECIFICITY */
+/* Primary button with gradient - HIGH SPECIFICITY - BRIGHT GREEN */
 .button.modern-button.primary-button {
-    -fx-background-color: #10b981;
-    -fx-effect: dropshadow(gaussian, rgba(16, 185, 129, 0.4), 8, 0, 0, 2);
+    -fx-background-color: #22c55e !important;
+    -fx-effect: dropshadow(gaussian, rgba(34, 197, 94, 0.4), 8, 0, 0, 2) !important;
 }
 
 .button.modern-button.primary-button:hover {
-    -fx-background-color: #059669;
-    -fx-effect: dropshadow(gaussian, rgba(16, 185, 129, 0.5), 12, 0, 0, 4);
-    -fx-scale-x: 1.02;
-    -fx-scale-y: 1.02;
+    -fx-background-color: #16a34a !important;
+    -fx-effect: dropshadow(gaussian, rgba(34, 197, 94, 0.5), 12, 0, 0, 4) !important;
+    -fx-scale-x: 1.02 !important;
+    -fx-scale-y: 1.02 !important;
 }
 
 /* Secondary button - HIGH SPECIFICITY */
 .button.modern-button.secondary-button {
-    -fx-background-color: #a855f7;
-    -fx-effect: dropshadow(gaussian, rgba(168, 85, 247, 0.4), 8, 0, 0, 2);
+    -fx-background-color: #a855f7 !important;
+    -fx-effect: dropshadow(gaussian, rgba(168, 85, 247, 0.4), 8, 0, 0, 2) !important;
 }
 
 .button.modern-button.secondary-button:hover {
-    -fx-background-color: #9333ea;
     -fx-effect: dropshadow(gaussian, rgba(147, 51, 234, 0.5), 12, 0, 0, 4);
     -fx-scale-x: 1.02;
     -fx-scale-y: 1.02;
 }
 
-/* Success button - HIGH SPECIFICITY */
+/* Success button - HIGH SPECIFICITY - BRIGHT GREEN for save */
 .button.modern-button.success-button {
-    -fx-background-color: #10b981;
-    -fx-effect: dropshadow(gaussian, rgba(16, 185, 129, 0.4), 8, 0, 0, 2);
+    -fx-background-color: #22c55e !important;
+    -fx-effect: dropshadow(gaussian, rgba(34, 197, 94, 0.4), 8, 0, 0, 2) !important;
 }
 
 .button.modern-button.success-button:hover {
-    -fx-background-color: #059669;
-    -fx-effect: dropshadow(gaussian, rgba(16, 185, 129, 0.5), 12, 0, 0, 4);
+    -fx-background-color: #16a34a !important;
+    -fx-effect: dropshadow(gaussian, rgba(34, 197, 94, 0.5), 12, 0, 0, 4) !important;
 }
 
-/* Danger button - HIGH SPECIFICITY */
+/* Danger button - HIGH SPECIFICITY - BRIGHT RED for cancel/delete */
 .button.modern-button.danger-button {
-    -fx-background-color: #ec4899;
-    -fx-effect: dropshadow(gaussian, rgba(236, 72, 153, 0.4), 8, 0, 0, 2);
+    -fx-background-color: #ef4444 !important;
+    -fx-effect: dropshadow(gaussian, rgba(239, 68, 68, 0.4), 8, 0, 0, 2) !important;
 }
 
 .button.modern-button.danger-button:hover {
-    -fx-background-color: #db2777;
-    -fx-effect: dropshadow(gaussian, rgba(219, 39, 119, 0.5), 12, 0, 0, 4);
+    -fx-background-color: #dc2626 !important;
+    -fx-effect: dropshadow(gaussian, rgba(220, 38, 38, 0.5), 12, 0, 0, 4) !important;
 }
 
 /* Enhanced mood buttons with emojis - much larger sizing - HIGH SPECIFICITY */
 .button.mood-button {
-    -fx-font-size: 24px;
-    -fx-font-weight: bold;
-    -fx-padding: 32 48;
-    -fx-background-radius: 24;
-    -fx-border-radius: 24;
-    -fx-cursor: hand;
-    -fx-min-width: 220;
-    -fx-min-height: 80;
-    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.2), 8, 0, 0, 3);
-    -fx-border-width: 0;
-    -fx-text-fill: white;
+    -fx-font-size: 24px !important;
+    -fx-font-weight: bold !important;
+    -fx-padding: 32 48 !important;
+    -fx-background-radius: 24 !important;
+    -fx-border-radius: 24 !important;
+    -fx-cursor: hand !important;
+    -fx-min-width: 220 !important;
+    -fx-min-height: 80 !important;
+    -fx-pref-width: 220 !important;
+    -fx-pref-height: 80 !important;
+    -fx-max-width: 280 !important;
+    -fx-max-height: 100 !important;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.2), 8, 0, 0, 3) !important;
+    -fx-border-width: 0 !important;
+    -fx-text-fill: white !important;
 }
 
 .button.mood-button:hover {
@@ -151,38 +185,42 @@
     -fx-opacity: 0.8;
 }
 
-/* Happy mood button - HIGH SPECIFICITY */
+/* Happy mood button - HIGH SPECIFICITY - BRIGHT GREEN for happiness */
 .button.mood-button.happy-button {
-    -fx-background-color: #10b981;
-    -fx-effect: dropshadow(gaussian, rgba(16, 185, 129, 0.4), 8, 0, 0, 3);
+    -fx-background-color: #22c55e !important;
+    -fx-effect: dropshadow(gaussian, rgba(34, 197, 94, 0.4), 8, 0, 0, 3) !important;
 }
 
 .button.mood-button.happy-button:hover {
-    -fx-background-color: #059669;
-    -fx-effect: dropshadow(gaussian, rgba(16, 185, 129, 0.5), 12, 0, 0, 5);
+    -fx-background-color: #16a34a !important;
+    -fx-effect: dropshadow(gaussian, rgba(34, 197, 94, 0.5), 12, 0, 0, 5) !important;
 }
 
-/* Neutral mood button - HIGH SPECIFICITY */
+/* Neutral mood button - HIGH SPECIFICITY - YELLOW for neutral */
 .button.mood-button.neutral-button {
-    -fx-background-color: #f59e0b;
-    -fx-effect: dropshadow(gaussian, rgba(245, 158, 11, 0.4), 8, 0, 0, 3);
+    -fx-background-color: #eab308 !important;
+    -fx-effect: dropshadow(gaussian, rgba(234, 179, 8, 0.4), 8, 0, 0, 3) !important;
 }
 
 .button.mood-button.neutral-button:hover {
-    -fx-background-color: #d97706;
-    -fx-effect: dropshadow(gaussian, rgba(245, 158, 11, 0.5), 12, 0, 0, 5);
+    -fx-background-color: #ca8a04 !important;
+    -fx-effect: dropshadow(gaussian, rgba(234, 179, 8, 0.5), 12, 0, 0, 5) !important;
 }
 
-/* Sad mood button - HIGH SPECIFICITY */
+/* Sad mood button - HIGH SPECIFICITY - BLUE for sadness */
 .button.mood-button.sad-button {
-    -fx-background-color: #ec4899;
-    -fx-effect: dropshadow(gaussian, rgba(236, 72, 153, 0.4), 8, 0, 0, 3);
+    -fx-background-color: #3b82f6 !important;
+    -fx-effect: dropshadow(gaussian, rgba(59, 130, 246, 0.4), 8, 0, 0, 3) !important;
 }
 
 .button.mood-button.sad-button:hover {
-    -fx-background-color: #db2777;
-    -fx-effect: dropshadow(gaussian, rgba(219, 39, 119, 0.5), 12, 0, 0, 5);
+    -fx-background-color: #2563eb !important;
+    -fx-effect: dropshadow(gaussian, rgba(59, 130, 246, 0.5), 12, 0, 0, 5) !important;
 }
+
+
+
+
 
 /* Modern TextArea with unified theme - single border */
 .modern-textarea {
@@ -207,7 +245,7 @@
 .modern-label {
     -fx-font-size: 20px;
     -fx-font-weight: bold;
-    -fx-text-fill: rgba(255, 255, 255, 0.95);
+    -fx-text-fill: white !important;
 }
 
 .mood-status-label {
@@ -325,9 +363,9 @@
     -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.8), 2, 0, 0, 1);
 }
 
-.trend-chart .axis-tick-label {
+.trend-chart .axis .tick-label  {
     -fx-font-size: 12px;
-    -fx-text-fill: white;
+    -fx-fill: white;
     -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.8), 2, 0, 0, 1);
 }
 
@@ -376,6 +414,63 @@
     -fx-background-color: rgba(255, 255, 255, 0.1);
 }
 
+.trend-chart .axis .tick-label {
+    -fx-fill: white;  
+}
+
+.y-axis .tick-label {
+    -fx-fill: white;
+}
+
+/* Additional comprehensive tick label selectors */
+.trend-chart .chart .axis .tick-label {
+    -fx-fill: white !important;
+}
+
+.trend-chart .chart .axis-label {
+    -fx-fill: white !important;
+}
+
+.trend-chart .chart .axis .axis-label {
+    -fx-fill: white !important;
+}
+
+/* Direct axis styling */
+.trend-chart .chart .x-axis .tick-label {
+    -fx-fill: white !important;
+}
+
+.trend-chart .chart .y-axis .tick-label {
+    -fx-fill: white !important;
+}
+
+/* NumberAxis specific styling */
+.trend-chart .chart .number-axis .tick-label {
+    -fx-fill: white !important;
+}
+
+.trend-chart .chart .number-axis .axis-label {
+    -fx-fill: white !important;
+}
+
+/* Broader chart text styling */
+.trend-chart .chart * {
+    -fx-text-fill: white;
+}
+
+.trend-chart .chart Text {
+    -fx-fill: white !important;
+}
+
+/* Force all text in chart to be white */
+.trend-chart .chart .axis Text {
+    -fx-fill: white !important;
+}
+
+.trend-chart .chart .axis .tick-mark Text {
+    -fx-fill: white !important;
+}
+
 /* Enhanced table styling with unified theme - NO BACKGROUND, NO BORDER */
 .history-table {
     -fx-background-color: transparent;
@@ -417,29 +512,29 @@
     -fx-text-fill: white;
 }
 
-/* Modern delete button */
+/* Modern delete button - BRIGHT RED */
 .delete-button {
-    -fx-background-color: linear-gradient(to bottom right, #ec4899, #db2777);
-    -fx-text-fill: white;
-    -fx-font-size: 12px;
-    -fx-font-weight: bold;
-    -fx-padding: 8 16;
-    -fx-border-radius: 8;
-    -fx-background-radius: 8;
-    -fx-cursor: hand;
-    -fx-min-width: 70;
-    -fx-min-height: 32;
-    -fx-effect: dropshadow(gaussian, rgba(236, 72, 153, 0.4), 4, 0, 0, 2);
+    -fx-background-color: #ef4444 !important;
+    -fx-text-fill: white !important;
+    -fx-font-size: 12px !important;
+    -fx-font-weight: bold !important;
+    -fx-padding: 8 16 !important;
+    -fx-border-radius: 8 !important;
+    -fx-background-radius: 8 !important;
+    -fx-cursor: hand !important;
+    -fx-min-width: 70 !important;
+    -fx-min-height: 32 !important;
+    -fx-effect: dropshadow(gaussian, rgba(239, 68, 68, 0.4), 4, 0, 0, 2) !important;
 }
 
 .delete-button:hover {
-    -fx-background-color: #db2777;
-    -fx-effect: dropshadow(gaussian, rgba(236, 72, 153, 0.5), 6, 0, 0, 3);
+    -fx-background-color: #dc2626 !important;
+    -fx-effect: dropshadow(gaussian, rgba(220, 38, 38, 0.5), 6, 0, 0, 3) !important;
 }
 
 .delete-button:pressed {
-    -fx-background-color: #be185d;
-    -fx-opacity: 0.8;
+    -fx-background-color: #b91c1c !important;
+    -fx-opacity: 0.8 !important;
 }
 
 /* Loading and state indicators */
@@ -539,13 +634,23 @@
 
 /* Enhanced button variants - NO GREY - HIGH SPECIFICITY */
 .button.modern-button.info-button {
-    -fx-background-color: #06b6d4;
-    -fx-effect: dropshadow(gaussian, rgba(6, 182, 212, 0.4), 8, 0, 0, 2);
+    -fx-background-color: #06b6d4 !important;
+    -fx-effect: dropshadow(gaussian, rgba(6, 182, 212, 0.4), 8, 0, 0, 2) !important;
 }
 
 .button.modern-button.info-button:hover {
-    -fx-background-color: #0891b2;
-    -fx-effect: dropshadow(gaussian, rgba(8, 145, 178, 0.5), 12, 0, 0, 4);
+    -fx-background-color: #0891b2 !important;
+    -fx-effect: dropshadow(gaussian, rgba(8, 145, 178, 0.5), 12, 0, 0, 4) !important;
+}
+
+/* Small button variant for refresh buttons */
+.button.modern-button.small-button {
+    -fx-font-size: 16px !important;
+    -fx-padding: 12 24 !important;
+    -fx-min-width: 120 !important;
+    -fx-min-height: 40 !important;
+    -fx-pref-width: 120 !important;
+    -fx-pref-height: 40 !important;
 }
 
 /* Smooth transitions for all interactive elements */
@@ -562,24 +667,78 @@
     -fx-font-size: 32px;
 }
 
+/* Ensure all text in the app is white by default */
+Label {
+    -fx-text-fill: white !important;
+}
+
+Text {
+    -fx-fill: white !important;
+}
+
 /* Enhanced accessibility */
 .button.modern-button:focused,
 .button.mood-button:focused,
 .modern-combo:focused {
-    -fx-border-color: rgba(255, 255, 255, 0.6);
-    -fx-border-width: 2;
-    -fx-effect: dropshadow(gaussian, rgba(255, 255, 255, 0.3), 8, 0, 0, 3);
+    -fx-border-color: rgba(255, 255, 255, 0.6) !important;
+    -fx-border-width: 2 !important;
+    -fx-effect: dropshadow(gaussian, rgba(255, 255, 255, 0.3), 8, 0, 0, 3) !important;
+}
+
+/* Container-specific button styling to ensure all buttons get proper sizing */
+.glass-card .button,
+.main-container .button,
+.history-table .button {
+    -fx-font-size: 18px !important;
+    -fx-font-weight: bold !important;
+    -fx-padding: 16 32 !important;
+    -fx-background-radius: 12 !important;
+    -fx-border-radius: 12 !important;
+    -fx-cursor: hand !important;
+    -fx-min-width: 150 !important;
+    -fx-min-height: 50 !important;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.2), 4, 0, 0, 2) !important;
+    -fx-border-width: 0 !important;
+    -fx-text-fill: white !important;
+    /* Remove background color to allow specific button classes to work */
 }
 
 /* TEST ID SELECTOR - This should definitely work if CSS is loaded */
 #logMoodBtn {
-    -fx-background-color: #10b981 !important;
+    -fx-background-color: #22c55e !important;
     -fx-text-fill: white !important;
 }
 
 #viewHistoryBtn {
     -fx-background-color: #8b5cf6 !important;
     -fx-text-fill: white !important;
+}
+
+/* Additional button styling to catch any missed buttons */
+.button {
+    -fx-font-size: 18px !important;
+    -fx-font-weight: bold !important;
+    -fx-padding: 16 32 !important;
+    -fx-background-radius: 12 !important;
+    -fx-border-radius: 12 !important;
+    -fx-cursor: hand !important;
+    -fx-min-width: 150 !important;
+    -fx-min-height: 50 !important;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.2), 4, 0, 0, 2) !important;
+    -fx-border-width: 0 !important;
+    -fx-text-fill: white !important;
+    -fx-background-color: #8b5cf6 !important;  /* purple base */
+}
+
+.button:hover {
+    /* Remove background color to allow specific button classes to work */
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.3), 6, 0, 0, 3) !important;
+    -fx-scale-x: 1.02 !important;
+    -fx-scale-y: 1.02 !important;
+}
+
+.button:pressed {
+    -fx-opacity: 0.8 !important;
 }
 
 /* Loading states */
@@ -600,3 +759,7 @@
     -fx-border-color: rgba(239, 68, 68, 0.4);
     -fx-effect: dropshadow(gaussian, rgba(239, 68, 68, 0.3), 8, 0, 0, 4);
 }
+
+
+
+

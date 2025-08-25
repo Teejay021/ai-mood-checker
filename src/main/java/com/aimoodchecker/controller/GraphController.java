@@ -48,6 +48,10 @@ public class GraphController implements RoutedController {
             }
         });
 
+        // Debug: Check if we can access the scene and stylesheets
+        System.out.println("=== GraphController Initialization ===");
+        System.out.println("Chart container: " + chartContainer);
+        
         // Initial chart build
         rebuildChart();
     }
@@ -128,6 +132,33 @@ public class GraphController implements RoutedController {
             // Display the chart
             chartContainer.getChildren().setAll(chart);
             
+            // Debug: Verify CSS styling after chart is displayed
+            verifyChartStyling(chart);
+            
+            // Apply delayed styling to ensure tick labels are properly styled
+            // This runs after the chart is fully rendered and has a scene
+            javafx.application.Platform.runLater(() -> {
+                // Wait a bit more to ensure the chart is fully rendered
+                javafx.application.Platform.runLater(() -> {
+                    applyTickLabelStyling(chart);
+                    
+                    // Try again after a longer delay to catch any late-rendered elements
+                    javafx.application.Platform.runLater(() -> {
+                        applyTickLabelStyling(chart);
+                        
+                        // Force a layout pass to ensure all elements are rendered
+                        chart.requestLayout();
+                        
+                        // Try one more time after layout
+                        javafx.application.Platform.runLater(() -> {
+                            applyTickLabelStyling(chart);
+                        });
+                    });
+                });
+            });
+            
+
+            
             // Update status
             if (statusLabel != null) {
                 statusLabel.setText("Chart loaded successfully - " + points.size() + " data points");
@@ -201,7 +232,148 @@ public class GraphController implements RoutedController {
         // Apply CSS styling
         chart.getStyleClass().add("trend-chart");
         
+        // Debug: Print applied style classes
+        System.out.println("Chart style classes: " + chart.getStyleClass());
+        
+        // Also try to apply some direct styling to the axes
+        xAxis.setStyle("-fx-tick-label-fill: white;");
+        yAxis.setStyle("-fx-tick-label-fill: white;");
+        
+        // Force tick label styling as fallback to ensure CSS is applied
+        // This will override any inline styles that might be interfering
+        // Note: At this point, tick labels might not be rendered yet, so we'll do this later
+        System.out.println("Chart created with trend-chart style class");
+        
         return chart;
+    }
+    
+    /**
+     * Debug method to verify that CSS styling is properly applied to the chart
+     */
+    private void verifyChartStyling(LineChart<Number, Number> chart) {
+        System.out.println("=== Chart Styling Verification ===");
+        System.out.println("Chart style classes: " + chart.getStyleClass());
+        
+        // Check if trend-chart class is applied
+        if (chart.getStyleClass().contains("trend-chart")) {
+            System.out.println("trend-chart style class is applied");
+        } else {
+            System.out.println("trend-chart style class is NOT applied");
+        }
+        
+        // Check the scene for stylesheets
+        if (chart.getScene() != null) {
+            System.out.println("Chart scene stylesheets: " + chart.getScene().getStylesheets());
+        } else {
+            System.out.println("Chart has no scene");
+        }
+        
+        // Check tick labels
+        var xAxis = (NumberAxis) chart.getXAxis();
+        var yAxis = (NumberAxis) chart.getYAxis();
+        
+        int xTickLabels = xAxis.lookupAll(".tick-label").size();
+        int yTickLabels = yAxis.lookupAll(".tick-label").size();
+        
+        System.out.println("X-axis tick labels found: " + xTickLabels);
+        System.out.println("Y-axis tick labels found: " + yTickLabels);
+        
+        System.out.println("=== End Styling Verification ===");
+    }
+    
+    /**
+     * Apply tick label styling programmatically as a fallback
+     * This ensures tick labels are white even if CSS fails
+     */
+    private void applyTickLabelStyling(LineChart<Number, Number> chart) {
+        System.out.println("=== Applying Tick Label Styling ===");
+        
+        // Check if chart has a scene first
+        if (chart.getScene() == null) {
+            System.out.println("Chart still has no scene, retrying in 100ms...");
+            javafx.application.Platform.runLater(() -> {
+                applyTickLabelStyling(chart);
+            });
+            return;
+        }
+        
+        var xAxis = (NumberAxis) chart.getXAxis();
+        var yAxis = (NumberAxis) chart.getYAxis();
+        
+        // Style X-axis tick labels
+        var xTickLabels = xAxis.lookupAll(".tick-label");
+        System.out.println("Found " + xTickLabels.size() + " X-axis tick labels");
+        
+        xTickLabels.forEach(node -> {
+            if (node instanceof javafx.scene.text.Text) {
+                javafx.scene.text.Text text = (javafx.scene.text.Text) node;
+                text.setFill(Color.WHITE);
+                System.out.println("Applied white fill to X-axis tick label: " + text.getText());
+            }
+        });
+        
+        // Style Y-axis tick labels
+        var yTickLabels = yAxis.lookupAll(".tick-label");
+        System.out.println("Found " + yTickLabels.size() + " Y-axis tick labels");
+        
+        yTickLabels.forEach(node -> {
+            if (node instanceof javafx.scene.text.Text) {
+                javafx.scene.text.Text text = (javafx.scene.text.Text) node;
+                text.setFill(Color.WHITE);
+                System.out.println("Applied white fill to Y-axis tick label: " + text.getText());
+            }
+        });
+        
+        // Try alternative selectors if the main ones didn't work
+        if (xTickLabels.isEmpty() || yTickLabels.isEmpty()) {
+            System.out.println("Trying alternative selectors...");
+            
+            // Try different CSS selectors that might work
+            var altXLabels = xAxis.lookupAll("Text");
+            var altYLabels = yAxis.lookupAll("Text");
+            
+            System.out.println("Alternative X labels found: " + altXLabels.size());
+            System.out.println("Alternative Y labels found: " + altYLabels.size());
+            
+            altXLabels.forEach(node -> {
+                if (node instanceof javafx.scene.text.Text) {
+                    javafx.scene.text.Text text = (javafx.scene.text.Text) node;
+                    text.setFill(Color.WHITE);
+                    System.out.println("Applied white fill to alternative X-axis text: " + text.getText());
+                }
+            });
+            
+            altYLabels.forEach(node -> {
+                if (node instanceof javafx.scene.text.Text) {
+                    javafx.scene.text.Text text = (javafx.scene.text.Text) node;
+                    text.setFill(Color.WHITE);
+                    System.out.println("Applied white fill to alternative Y-axis text: " + text.getText());
+                }
+            });
+        }
+        
+        // Also try to style axis labels
+        if (xAxis.getLabel() != null) {
+            System.out.println("X-axis label: " + xAxis.getLabel());
+        }
+        if (yAxis.getLabel() != null) {
+            System.out.println("Y-axis label: " + yAxis.getLabel());
+        }
+        
+        // Try to find and style ALL text elements in the chart
+        System.out.println("Searching for all text elements in chart...");
+        var allTexts = chart.lookupAll("Text");
+        System.out.println("Found " + allTexts.size() + " total text elements");
+        
+        allTexts.forEach(node -> {
+            if (node instanceof javafx.scene.text.Text) {
+                javafx.scene.text.Text text = (javafx.scene.text.Text) node;
+                text.setFill(Color.WHITE);
+                System.out.println("Applied white fill to text: " + text.getText() + " (class: " + node.getClass().getSimpleName() + ")");
+            }
+        });
+        
+        System.out.println("=== End Tick Label Styling ===");
     }
     
     private XYChart.Series<Number, Number> createMoodSeries(List<TrendPoint> points) {
